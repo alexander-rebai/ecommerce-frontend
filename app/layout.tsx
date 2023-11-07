@@ -3,6 +3,7 @@ import { Urbanist } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
+import getCategories from "@/actions/get-categories";
 
 const font = Urbanist({ subsets: ["latin"] });
 
@@ -11,15 +12,17 @@ export const metadata: Metadata = {
   description: "Store description",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const categories = await getCategories();
+
   return (
     <html lang="en">
       <body className={font.className}>
-        <Navbar />
+        <Navbar categories={categories} />
         {children}
         <Footer />
       </body>
