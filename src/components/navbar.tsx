@@ -1,9 +1,8 @@
 import Link from "next/link";
+import { Category } from "../../types";
 import Container from "./container";
 import MainNavRoutes from "./main-nav-routes";
-import getCategories from "@/actions/get-categories";
 import NavbarActions from "./navbar-actions";
-import { Category } from "../../types";
 
 const Navbar = ({ categories }: { categories: Category[] }) => {
   return (
