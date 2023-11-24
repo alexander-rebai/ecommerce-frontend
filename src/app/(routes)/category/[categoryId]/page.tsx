@@ -41,8 +41,6 @@ const CategoryPage = async ({ params, searchParams }: CategoryPageProps) => {
             <MobileFilters sizes={sizes} colors={colors} />
             <div className="hidden lg:block">
               <Filters sizes={sizes} colors={colors} />
-              {/* <Filter data={sizes} name="Sizes" valueKey="sizeId" />
-              <Filter data={colors} name="Colors" valueKey="colorId" /> */}
             </div>
             <div className="mt-6 lg:col-span-4 lg:mt-0">
               {products.length === 0 && <NoResults />}

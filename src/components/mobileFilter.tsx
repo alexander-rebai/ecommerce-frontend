@@ -1,39 +1,44 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useRouter, useSearchParams } from "next/navigation";
+import queryString from "query-string";
 import { Color, Size } from "../../types";
-import { FilterValues } from "./filters";
 import { Button } from "./ui/button";
 
 type FilterProps = {
   data: (Size | Color)[];
   name: string;
-  valueKey: "sizeId" | "colorId";
-  setFilterValues: React.Dispatch<React.SetStateAction<FilterValues>>;
-  filterValues?: FilterValues;
+  valueKey: string;
 };
 
-const Filter = ({
-  data,
-  name,
-  valueKey,
-  setFilterValues,
-  filterValues,
-}: FilterProps) => {
-  const isSelected = (id: string) => {
-    return filterValues?.[valueKey] === id;
-  };
+const MobileFilter = ({ data, name, valueKey }: FilterProps) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const selectedValue = searchParams.get(valueKey);
 
   const onClick = (id: string) => {
-    setFilterValues((prevValues) => {
-      const updatedValues = { ...prevValues, [valueKey]: id };
+    const current = queryString.parse(searchParams.toString());
 
-      if (prevValues[valueKey] === id) {
-        delete updatedValues[valueKey];
-      }
+    const query = {
+      ...current,
+      [valueKey]: id,
+    };
 
-      return updatedValues;
-    });
+    if (current[valueKey] === id) {
+      query[valueKey] = null;
+    }
+
+    const url = queryString.stringifyUrl(
+      {
+        url: window.location.pathname,
+        query,
+      },
+      { skipNull: true }
+    );
+
+    router.push(url);
   };
 
   return (
@@ -46,7 +51,7 @@ const Filter = ({
             <Button
               className={cn(
                 "rounded-md text-sm text-primary p-2 bg-white border border-muted-foreground hover:text-white",
-                isSelected(filter.id) && "bg-primary text-white"
+                selectedValue === filter.id && "bg-primary text-white"
               )}
               onClick={() => onClick(filter.id)}
             >
@@ -59,4 +64,4 @@ const Filter = ({
   );
 };
 
-export default Filter;
+export default MobileFilter;

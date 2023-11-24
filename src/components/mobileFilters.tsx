@@ -2,7 +2,7 @@
 
 import { Plus } from "lucide-react";
 import { Color, Size } from "../../types";
-import Filter from "./filter";
+import MobileFilter from "./mobileFilter";
 import { Button } from "./ui/button";
 import {
   Sheet,
@@ -29,8 +29,8 @@ const MobileFilters = ({ colors, sizes }: Props) => {
         <SheetHeader>
           <SheetTitle>Filters</SheetTitle>
         </SheetHeader>
-        <Filter data={sizes} name="Sizes" valueKey="sizeId" />
-        <Filter data={colors} name="Colors" valueKey="colorId" />
+        <MobileFilter data={sizes} name="Sizes" valueKey="sizeId" />
+        <MobileFilter data={colors} name="Colors" valueKey="colorId" />
       </SheetContent>
     </Sheet>
   );
