@@ -4,7 +4,8 @@ import { priceFormatter } from "@/lib/utils";
 import { Expand, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
+import usePreviewModal from "../../hooks/usePreviewModal";
 import { Product } from "../../types";
 import IconButton from "./icon-button";
 import { Card, CardContent, CardFooter } from "./ui/card";
@@ -12,6 +13,7 @@ import { Card, CardContent, CardFooter } from "./ui/card";
 const ProductCard = ({ product }: { product: Product }) => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
+  const previewModal = usePreviewModal();
 
   useEffect(() => {
     setIsMounted(true);
@@ -23,6 +25,11 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   const handleClick = () => {
     router.push(`/product/${product.id}`);
+  };
+
+  const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    previewModal.onOpen(product);
   };
 
   return (
@@ -39,9 +46,10 @@ const ProductCard = ({ product }: { product: Product }) => {
             fill
             className="rounded-xl object-cover"
           />
-          <div className="opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5">
+          <div className="hidden lg:block opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5">
             <div className="flex gap-x-6 justify-center">
               <IconButton
+                onClick={onPreview}
                 icon={<Expand size={20} className="text-gray-600" />}
               />
               <IconButton
