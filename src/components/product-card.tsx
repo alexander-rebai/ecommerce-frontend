@@ -1,12 +1,13 @@
 "use client";
 
+import useCart from "@/hooks/useCartModal";
+import usePreviewModal from "@/hooks/usePreviewModal";
 import { priceFormatter } from "@/lib/utils";
 import { Expand, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { MouseEventHandler, useEffect, useState } from "react";
 import { Product } from "../../types";
-import usePreviewModal from "../hooks/usePreviewModal";
 import IconButton from "./icon-button";
 import { Card, CardContent, CardFooter } from "./ui/card";
 
@@ -14,6 +15,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const previewModal = usePreviewModal();
+  const cart = useCart();
 
   useEffect(() => {
     setIsMounted(true);
@@ -30,6 +32,11 @@ const ProductCard = ({ product }: { product: Product }) => {
   const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
     previewModal.onOpen(product);
+  };
+
+  const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    cart.addItem(product);
   };
 
   return (
@@ -50,10 +57,11 @@ const ProductCard = ({ product }: { product: Product }) => {
             <div className="flex gap-x-6 justify-center">
               <IconButton
                 onClick={onPreview}
-                icon={<Expand size={20} className="text-gray-600" />}
+                icon={<Expand size={20} className="text-primary" />}
               />
               <IconButton
-                icon={<ShoppingCart size={20} className="text-gray-600" />}
+                onClick={onAddToCart}
+                icon={<ShoppingCart size={20} className="text-primary" />}
               />
             </div>
           </div>

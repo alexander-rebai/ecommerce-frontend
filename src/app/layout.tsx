@@ -1,6 +1,7 @@
 import getCategories from "@/actions/get-categories";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
+import ToastProvider from "@/providers/toast-provider";
 import type { Metadata } from "next";
 import { Urbanist } from "next/font/google";
 import ModalProvider from "../providers/modal-provider";
@@ -24,6 +25,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <ModalProvider />
+        <ToastProvider />
         <Navbar categories={categories} />
         {children}
         <Footer />

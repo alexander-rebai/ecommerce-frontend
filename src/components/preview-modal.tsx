@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import usePreviewModal from "../hooks/usePreviewModal";
+import usePreviewModal from "../hooks/useCartModal";
 import Gallery from "./gallery";
 import Info from "./info";
 
