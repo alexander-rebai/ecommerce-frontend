@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import queryString from "query-string";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Color, Size } from "../../types";
 import Filter from "./filter";
 import { Button } from "./ui/button";
@@ -22,17 +22,10 @@ const Filters = ({ sizes, colors }: FilterProps) => {
   const router = useRouter();
 
   const applyFilters = () => {
-    const currentQuery = queryString.parse(window.location.search);
-
-    const query = {
-      ...currentQuery,
-      ...filterValues,
-    };
-
     const url = queryString.stringifyUrl(
       {
         url: window.location.pathname,
-        query,
+        query: filterValues,
       },
       { skipNull: true }
     );
@@ -45,6 +38,15 @@ const Filters = ({ sizes, colors }: FilterProps) => {
 
     router.push(window.location.pathname);
   };
+
+  useEffect(() => {
+    const currentQuery = queryString.parse(window.location.search);
+
+    setFilterValues({
+      sizeId: currentQuery.sizeId as string,
+      colorId: currentQuery.colorId as string,
+    });
+  }, []);
 
   return (
     <div>
