@@ -5,8 +5,8 @@ import { Expand, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { MouseEventHandler, useEffect, useState } from "react";
-import usePreviewModal from "../../hooks/usePreviewModal";
 import { Product } from "../../types";
+import usePreviewModal from "../hooks/usePreviewModal";
 import IconButton from "./icon-button";
 import { Card, CardContent, CardFooter } from "./ui/card";
 
