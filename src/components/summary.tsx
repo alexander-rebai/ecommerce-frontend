@@ -4,13 +4,19 @@ import useCart from "@/hooks/useCartModal";
 import { priceFormatter } from "@/lib/utils";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Button } from "./ui/button";
 
 const Summary = () => {
   const { items, removeAllItems } = useCart();
   const searchParams = useSearchParams();
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (searchParams.get("success")) {
@@ -22,6 +28,8 @@ const Summary = () => {
       toast.error("Something went wrong. Please try again.");
     }
   }, [searchParams, removeAllItems]);
+
+  if (!isMounted) return null;
 
   const totalPrice = items.reduce((total, item) => {
     return total + Number(item.price);
